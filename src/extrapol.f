@@ -5,7 +5,7 @@
       character*128 qid
       logical ife
       real*8 kf(2),tkin
-      integer nkact,la,n,lpx,ifs0
+      integer nkact,la,n,lpx,ifs0,nkact_min,nkact_max,jsh
       include 'geometry.cm'
       include 'system.cm'
       include 'kshell.cm'
@@ -53,15 +53,48 @@
         stop
       endif
       call setbox(0)
+c     ---- validate nkact against the available k-shells ----
+c     kc = rknorm(nkact+1) picks the active cutoff, so nkact+1 must
+c     index a real shell (1..Nshlls) and kc must reach kc_conv.
+      nkact_max = Nshlls - 1
+      nkact_min = 1
+      do jsh = 1, Nshlls
+        if (rknorm(jsh) .ge. kc_conv) then
+          nkact_min = max(1, jsh - 1)
+          go to 101
+        end if
+      end do
+c     even the largest available shell is below the requested cutoff
+      write(*,*) '*** input error: rc*kc is too large ***'
+      write(*,*) '  requested cutoff kc_conv =', kc_conv
+      write(*,*) '  largest available |k|    =', rknorm(Nshlls)
+      write(*,*) '  no value of nkact can reach this cutoff.'
+      write(*,*) '  reduce rc*kc, or enlarge the box (ell).'
+      stop
+101   continue
+      if (nkact .lt. nkact_min .or. nkact .gt. nkact_max) then
+        write(*,*) '*** input error: invalid value of nkact ***'
+        write(*,*) '  you entered     nkact =', nkact
+        write(*,*) '  minimum allowed nkact =', nkact_min
+        write(*,*) '  maximum allowed nkact =', nkact_max
+        write(*,*) '  (nkact = number of active reciprocal-lattice'
+        write(*,*) '   shells; active cutoff kc = rknorm(nkact+1).)'
+        if (nkact .lt. nkact_min) then
+          write(*,*) '  too small: kc would fall below the requested'
+          write(*,*) '  cutoff kc_conv =', kc_conv
+          write(*,*) '  -> raise nkact to at least', nkact_min
+        else
+          write(*,*) '  too large: only', Nshlls, ' shells exist'
+          write(*,*) '  (largest usable nkact = Nshlls-1).'
+          write(*,*) '  -> lower nkact to at most', nkact_max
+        end if
+        stop
+      end if
       kc=rknorm(nkact+1)
       kmax=kc
       write(*,738) 'nkact = ', nkact
       write(*,737) 'kc = ', kc
       write(*,737) 'kmax = ', kmax
-      if (kc.lt.kc_conv) then
-        write(*,*) 'increase nkact'
-        stop
-      endif
       kf(1)=2.d0*pi*( (1.d0+zeta)* (rho*ndim)
      .                 /(4.d0*pi*(ndim-1)))**(1.d0/ndim)
       kf(2)=2.d0*pi*( (1.d0-zeta)* (rho*ndim)
