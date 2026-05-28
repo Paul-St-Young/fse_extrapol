@@ -4,7 +4,8 @@
       real*8 dummy,yp1,ypn
       character*128 qid
       logical ife
-      integer nkact,la,n,lpx
+      real*8 kf(2),tkin
+      integer nkact,la,n,lpx,ifs0
       include 'geometry.cm'
       include 'system.cm'
       include 'kshell.cm'
@@ -20,6 +21,9 @@
       read(*,'(f8.6)') rs
       write(*,*) 'nelec'
       read(*,'(i4)') Nparts
+      zeta=0.d0
+      ifs0=1                    ! include ideal-fermion S0 in RPA Jastrow
+      hbs2m=0.5d0
       e2=1.d0
       rho=ndim/(2.d0*(ndim-1)*pi*rs**ndim)
       write(*,*) 'ell'
@@ -58,7 +62,15 @@
         write(*,*) 'increase nkact'
         stop
       endif
+      kf(1)=2.d0*pi*( (1.d0+zeta)* (rho*ndim)
+     .                 /(4.d0*pi*(ndim-1)))**(1.d0/ndim)
+      kf(2)=2.d0*pi*( (1.d0-zeta)* (rho*ndim)
+     .             /(4.d0*pi*(ndim-1)))**(1.d0/ndim)
+      tkin=3.d0/5.d0*hbs2m
+     .      *(kf(1)**2*(1.d0+zeta)/2.d0+kf(2)**2*(1-zeta)/2.d0)
       iksbig=1000
+
+      mnshex=9999               ! 3D
 
       write(*,*) ' file qid or stop ?'
       read(*,'(a)') qid
@@ -99,5 +111,7 @@
       alpha=sqrt(kc/2.d0/rc)   ! Ewald cutoff parameter
 
       call ewald(kc,alpha)
+
+      call optpot_Ujas(ifs0,nkact,rc,0)
 
       end
