@@ -1,11 +1,7 @@
-c     k-shell tables for the Ewald-only build.  vkbig, vklrbig,
-c     and mnshex from markus/src/kshell.cm are gone -- they were only
-c     used by the optimized-breakup paths (optpot_Vpot, optpot_Ujas)
-c     which are not built here.
       integer Mnshlls,Mnkv
       parameter(Mnshlls=20000,Mnkv=950000)
-      integer kmult,Nshlls,Nvects,iksbig
-      common/ikshell/kmult(0:Mnshlls),Nshlls,Nvects,iksbig
-      real*8 rkcomp,rknorm,rkbig,del,kmax
-      common/rkshell/rkcomp(Ndim,Mnkv),rknorm(0:Mnshlls)
-     .,rkbig(Mnkv),del,kmax
+      integer kmult,Nshlls,Nvects,mnshex,iksbig
+      common/ikshell/kmult(0:Mnshlls),Nshlls,Nvects,mnshex,iksbig
+      real*8 rkcomp,rknorm,rkbig,vkbig,vklrbig,del,kmax
+      common/rkshell/rkcomp(ndim,Mnkv),rknorm(0:Mnshlls)
+     .,rkbig(Mnkv),vkbig(Mnkv),vklrbig(Mnkv),del,kmax

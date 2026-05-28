@@ -1,11 +1,9 @@
-c     Only the fields the Ewald-only build actually needs.  Compared
-c     to markus/src/system.cm we drop hbs2m, zeta -- there is no
-c     Jastrow / kinetic path in this build.
       logical electrongas
       common/lystem/electrongas
       integer Nparts,nsk,mk
       parameter (mk=100000)
       common/isystem/Nparts,nsk
-      real*8 vol,rho,rs,e2
-      real*8 sk,sk2,rksk
-      common/rsystem/vol,rho,rs,e2,sk(0:mk),sk2(0:mk),rksk(0:mk)
+      real*8 vol,rho,hbs2m,rs,e2
+      real*8 sk,sk2,rksk,zeta
+      common/rsystem/vol,rho,hbs2m,rs,e2,sk(0:mk)
+     .,sk2(0:mk),rksk(0:mk),zeta
