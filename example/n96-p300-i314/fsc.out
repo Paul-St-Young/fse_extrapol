@@ -1,0 +1,26 @@
+ rc*kc
+ nkact
+ rs
+ nelec
+ ell
+rc*kc =    20.0000
+nkact =  125
+   rs =     1.2767
+nparts =  96
+  ell =         8.97584615       10.36441283        8.99490454
+   vol =  836.7903
+  rho =     0.1147
+rho_rs =    0.1147
+   rc =     5.1822
+rec. kc     3.8594
+nkact =  125
+   kc =     3.8975
+ kmax =     3.8975
+  file qid or stop ?
+  nsk=                   235
+  kc kmax    3.8974932519758752        3.8974932519758752     
+ ***************************************
+   Potential energy correction  
+      using Ewald potential with ik=                 1000
+  dV/N=   2.3859533263197313E-003  Ha
+ ***************************************

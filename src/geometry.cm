@@ -1,0 +1,8 @@
+c       describes geometry
+c       L_alpha=ell, el2=L/2, elli=1/L, tpiell=2 pi / L
+      integer Ndim
+      parameter (Ndim=3)
+      real*8 ell,el2,elli,tpiell
+      common/geometry/ell(Ndim),el2(Ndim),elli(Ndim),tpiell(Ndim)
+      real*8 pi
+      parameter  (pi=3.14159265358979323846264338327950d0)
