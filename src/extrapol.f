@@ -2,6 +2,8 @@
       implicit none
       real*8 alpha,kc,rc,kc_conv,dim_cutoff
       real*8 dummy,yp1,ypn
+      real*8 sktol
+      parameter (sktol=0.05d0)  ! max |S(kmax)-1| for a usable S(k) grid
       character*128 qid
       logical ife
       real*8 kf(2),tkin
@@ -125,8 +127,26 @@ c     even the largest available shell is below the requested cutoff
       goto 67
 68    continue
       close(10)
-      if (rksk(nsk).lt.kmax) then
-        write(6,*) ' kmax  '
+c     ---- validate the S(k) input grid ----
+c     the spline needs S(k) tabulated out to the cutoff kmax, where
+c     S(k) must already have settled onto its asymptotic value 1.
+      if (rksk(nsk) .lt. kmax) then
+        write(*,*) '*** input error: S(k) grid too short in k ***'
+        write(*,*) '  S(k) tabulated only up to k =', rksk(nsk)
+        write(*,*) '  but the cutoff needs k up to kmax =', kmax
+        write(*,*) '  -> extend the S(k) file (col 1) past kmax,'
+        write(*,*) '     or lower nkact so that kmax <=', rksk(nsk)
+        stop
+      end if
+      if (abs(sk(nsk) - 1.d0) .gt. sktol) then
+        write(*,*) '*** input error: S(k) has not reached 1 ***'
+        write(*,*) '  at the largest tabulated k =', rksk(nsk)
+        write(*,*) '  S(k) =', sk(nsk), ' (should approach 1).'
+        write(*,*) '  tolerance is |S(k)-1| <=', sktol
+        write(*,*) '  the S(k) grid stops before the asymptotic'
+        write(*,*) '  region, so the spline tail is ill-behaved.'
+        write(*,*) '  -> provide S(k) on a larger k-grid until it'
+        write(*,*) '     flattens to ~1, or relax sktol in the source.'
         stop
       end if
 
