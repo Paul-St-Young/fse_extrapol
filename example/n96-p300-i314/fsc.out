@@ -24,3 +24,10 @@ nkact =  125
       using Ewald potential with ik=                 1000
   dV/N=   2.3859533263197313E-003  Ha
  ***************************************
+  fitpn: Chi^2 =   4.1689320609308640E-019
+
+ ***************************************
+   Kinetic energy correction Ujas  
+      using optimized potential with ik=                 1000
+  dT/N=   1.8386695761390456E-003  Ha
+ ***************************************

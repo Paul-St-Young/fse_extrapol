@@ -1,0 +1,33 @@
+ rc*kc
+ nkact
+ rs
+ nelec
+ ell
+rc*kc =    20.0000
+nkact =   35
+   rs =     1.3922
+nparts = 128
+  ell =        11.31030391       11.31030391       11.31030391
+   vol = 1446.8477
+  rho =     0.0885
+rho_rs =    0.0885
+   rc =     5.6552
+rec. kc     3.5366
+nkact =   35
+   kc =     3.6002
+ kmax =     3.6002
+  file qid or stop ?
+  nsk=                    78
+  kc kmax    3.6002299372234141        3.6002299372234141     
+ ***************************************
+   Potential energy correction  
+      using Ewald potential with ik=                 1000
+  dV/N=   1.9824627997283434E-003  Ha
+ ***************************************
+  fitpn: Chi^2 =   8.0216284088355627E-019
+
+ ***************************************
+   Kinetic energy correction Ujas  
+      using optimized potential with ik=                 1000
+  dT/N=   1.4711190083403977E-003  Ha
+ ***************************************
